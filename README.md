@@ -10,26 +10,30 @@
 	vagrant up
 ## Bootstrap first server agent
 	vagrant ssh consul1
-	/vagrant/bin/consul agent -server -bootstrap -data-dir /tmp/consul -node=consul1 -bind 172.20.20.10 &
+	/vagrant/bin/consul agent -server -bootstrap -data-dir /tmp/consul \
+		-node=consul1 -bind 172.20.20.10 &
 	disown
 	exit
 
 ## Start second server agent, join server1
 	vagrant ssh consul2
-	/vagrant/bin/consul agent -server -data-dir /tmp/consul -node=consul2 -bind=172.20.20.11 -join 172.20.20.10 &
+	/vagrant/bin/consul agent -server -data-dir /tmp/consul \
+		-node=consul2 -bind=172.20.20.11 -join 172.20.20.10 &
 	disown
 	exit
 
 ## Restart server1, join server2
 	vagrant ssh consul1
 	killall consul
-	/vagrant/bin/consul agent -server -data-dir /tmp/consul -node=consul1 -bind=172.20.20.10 -join 172.20.20.11 &
+	/vagrant/bin/consul agent -server -data-dir /tmp/consul \
+		-node=consul1 -bind=172.20.20.10 -join 172.20.20.11 &
 	disown
 	exit
 
 ## Start Status webapp
 	vagrant ssh status
-	/vagrant/bin/consul agent -client=172.20.20.12 -ui-dir /vagrant/web/ -data-dir /tmp/consul -node=status -bind=172.20.20.12 -join 172.20.20.10 &
+	/vagrant/bin/consul agent -client=172.20.20.12 -ui-dir /vagrant/web/ -data-dir /tmp/consul \
+		-node=status -bind=172.20.20.12 -join 172.20.20.10 &
 	disown
 	exit
 
@@ -41,12 +45,13 @@
 	    "tags": ["microservice"], 
 	    "port": 8045, 
 	    "check": {
-	        "script": "curl localhost:8045/status | grep OK >/dev/null 2>&1", 
+	        "script": "curl localhost:8045/status | grep OK || exit 2", 
 	        "interval": "5s"
 	    }
 	}}	
 
-	/vagrant/bin/consul agent -data-dir /tmp/consul -node=service1 -config-dir /etc/consul.d -bind=172.20.20.13 -join 172.20.20.10 &
+	/vagrant/bin/consul agent -data-dir /tmp/consul \
+		-node=service1 -config-dir /etc/consul.d -bind=172.20.20.13 -join 172.20.20.10 &
 	disown
 	/vagrant/bin/demo -addr=:8045 &
 	disown
@@ -60,13 +65,14 @@
 	    "tags": ["microservice"], 
 	    "port": 8076, 
 	    "check": {
-	        "script": "curl localhost:8076/status | grep OK >/dev/null 2>&1", 
+	        "script": "curl localhost:8076/status | grep OK || exit 2", 
 	        "interval": "5s"
 	    }
 	}}	
 	CONFIG
 
-	/vagrant/bin/consul agent -data-dir /tmp/consul -node=service2 -config-dir /etc/consul.d -bind=172.20.20.14 -join 172.20.20.10 &
+	/vagrant/bin/consul agent -data-dir /tmp/consul \
+		-node=service2 -config-dir /etc/consul.d -bind=172.20.20.14 -join 172.20.20.10 &
 	disown
 	/vagrant/bin/demo -addr=:8076 &
 	disown
@@ -84,13 +90,14 @@
 	    "tags": ["webapp"], 
 	    "port": 80, 
 	    "check": {
-	        "script": "curl localhost:80/status | grep OK >/dev/null 2>&1", 
+	        "script": "curl localhost:80/status | grep OK || exit 2", 
 	        "interval": "5s"
 	    }
 	}}	
 	CONFIG
 
-	/vagrant/bin/consul agent -data-dir /tmp/consul -node=demo -config-dir /etc/consul.d -bind=172.20.20.15 -join 172.20.20.10 &
+	/vagrant/bin/consul agent -data-dir /tmp/consul \
+		-node=demo -config-dir /etc/consul.d -bind=172.20.20.15 -join 172.20.20.10 &
 	disown
 	/vagrant/bin/demo -addr=:80 &
 	disown
