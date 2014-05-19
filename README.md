@@ -6,7 +6,8 @@
 - web/ https://dl.bintray.com/mitchellh/consul/0.2.0_web_ui.zip
 
 # Install Log
-
+## Initialize cluster with 6 vanilla "Trusty" instances
+	vagrant up
 ## Bootstrap first server agent
 	vagrant ssh consul1
 	/vagrant/bin/consul agent -server -bootstrap -data-dir /tmp/consul -node=consul1 -bind 172.20.20.10 &
