@@ -16,33 +16,33 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: $script
 
   config.vm.define "consul1" do |consul1|
-      n1.vm.hostname = "consul1"
-      n1.vm.network "private_network", ip: "172.20.20.10"
+      consul1.vm.hostname = "consul1"
+      consul1.vm.network "private_network", ip: "172.20.20.10"
   end
 
   config.vm.define "consul2" do |consul2|
-      n2.vm.hostname = "consul2"
-      n2.vm.network "private_network", ip: "172.20.20.11"
+      consul2.vm.hostname = "consul2"
+      consul2.vm.network "private_network", ip: "172.20.20.11"
   end
 
   config.vm.define "status" do |status|
-      n1.vm.hostname = "status"
-      n1.vm.network "private_network", ip: "172.20.20.12"
+      status.vm.hostname = "status"
+      status.vm.network "private_network", ip: "172.20.20.12"
   end
 
   config.vm.define "svc1" do |svc1|
-      n1.vm.hostname = "svc1"
-      n1.vm.network "private_network", ip: "172.20.20.13"
+      svc1.vm.hostname = "svc1"
+      svc1.vm.network "private_network", ip: "172.20.20.13"
   end
 
   config.vm.define "svc2" do |svc2|
-      n1.vm.hostname = "svc2"
-      n1.vm.network "private_network", ip: "172.20.20.14"
+      svc2.vm.hostname = "svc2"
+      svc2.vm.network "private_network", ip: "172.20.20.14"
   end
 
   config.vm.define "demo" do |demo|
-      n1.vm.hostname = "demo"
-      n1.vm.network "private_network", ip: "172.20.20.15"
+      demo.vm.hostname = "demo"
+      demo.vm.network "private_network", ip: "172.20.20.15"
   end
 
 
