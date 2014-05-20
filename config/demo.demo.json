@@ -1,0 +1,9 @@
+{"service": {
+    "name": "demo", 
+    "tags": ["webapp"], 
+    "port": 80, 
+    "check": {
+        "script": "curl localhost:80/status | grep OK || exit 2", 
+        "interval": "5s"
+    }
+}}  

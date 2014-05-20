@@ -1,0 +1,9 @@
+{"service": {
+    "name": "my-svc", 
+    "tags": ["microservice"], 
+    "port": 8045, 
+    "check": {
+        "script": "curl localhost:8045/status | grep OK || exit 2", 
+        "interval": "5s"
+    }
+}}  

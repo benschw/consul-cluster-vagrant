@@ -1,0 +1,13 @@
+[confd]
+confdir = "/etc/confd"
+interval = 10
+prefix = "/"
+consul = true
+consul-addr = "localhost"
+
+[template]
+src = "my-config.yaml.tpl"
+dest = "/opt/my-config.yaml"
+keys = [
+  "foo",
+]
