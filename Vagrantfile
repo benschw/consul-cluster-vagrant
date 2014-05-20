@@ -13,13 +13,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 apt-get install daemon
 
-########################################
+#==================================================
 echo "Installing Consul"
-
 cp /vagrant/bin/consul /usr/local/bin/
+daemon -X "consul agent -server -bootstrap -data-dir /tmp/consul -node=consul1 -bind 172.20.20.10"
 
-daemon -X "consul agent -server -bootstrap -data-dir /tmp/consul \
-    -node=consul1 -bind 172.20.20.10"
 SCRIPT
       consul1.vm.provision "shell", inline: $script
       consul1.vm.hostname = "consul1"
@@ -31,13 +29,11 @@ SCRIPT
 
 apt-get install daemon
 
-########################################
+#==================================================
 echo "Installing Consul"
-
 cp /vagrant/bin/consul /usr/local/bin/
+daemon -X "consul agent -server -data-dir /tmp/consul -node=consul2 -bind 172.20.20.11 -join 172.20.20.10" 
 
-daemon -X "consul agent -server -data-dir /tmp/consul \
-    -node=consul2 -bind=172.20.20.11 -join 172.20.20.10" 
 SCRIPT
       consul2.vm.provision "shell", inline: $script
       consul2.vm.hostname = "consul2"
@@ -49,13 +45,10 @@ SCRIPT
 
 apt-get install daemon
 
-########################################
+#==================================================
 echo "Installing and Configuring Consul Status UI"
-
 cp /vagrant/bin/consul /usr/local/bin/
-
-daemon -X "consul agent -client=172.20.20.12 -ui-dir /vagrant/web/ -data-dir /tmp/consul \
-    -node=status -bind=172.20.20.12 -join 172.20.20.10"
+daemon -X "consul agent -client=172.20.20.12 -ui-dir /vagrant/web/ -data-dir /tmp/consul -node=status -bind 172.20.20.12 -join 172.20.20.10"
 
 SCRIPT
 
@@ -69,31 +62,22 @@ SCRIPT
 
 apt-get install daemon
 
-########################################
+#==================================================
 echo "Installing and Configuring Consul"
-
 cp /vagrant/bin/consul /usr/local/bin/
-
 mkdir /etc/consul.d/
 cp /vagrant/config/svc1.mysvc.json /etc/consul.d/mysvc.json
+daemon -X "consul agent -data-dir /tmp/consul -node=service1 -config-dir /etc/consul.d -bind 172.20.20.13 -join 172.20.20.10"
 
-daemon -X "consul agent -data-dir /tmp/consul \
-    -node=service1 -config-dir /etc/consul.d -bind=172.20.20.13 -join 172.20.20.10"
-
-########################################
+#==================================================
 echo "Installing and Configuring Confd"
-
 cp /vagrant/bin/confd /usr/local/bin/
-
 cp -r /vagrant/config/confd /etc/
-
 daemon -X "confd -config-file /etc/confd/conf.d/config.toml"
 
-########################################
+#==================================================
 echo "Installing and Configuring Demo Service"
-
 cp /vagrant/bin/demo /usr/local/bin/
-
 daemon -X "demo -addr=:8045"
 
 SCRIPT
@@ -106,31 +90,22 @@ SCRIPT
       $script = <<SCRIPT
 apt-get install daemon
 
-########################################
+#==================================================
 echo "Installing and Configuring Consul"
-
 cp /vagrant/bin/consul /usr/local/bin/
-
 mkdir /etc/consul.d/
 cp /vagrant/config/svc2.mysvc.json /etc/consul.d/mysvc.json
+daemon -X "consul agent -data-dir /tmp/consul -node=service2 -config-dir /etc/consul.d -bind 172.20.20.14 -join 172.20.20.10"
 
-daemon -X "consul agent -data-dir /tmp/consul \
-    -node=service2 -config-dir /etc/consul.d -bind=172.20.20.14 -join 172.20.20.10"
-
-########################################
+#==================================================
 echo "Installing and Configuring Confd"
-
 cp -r /vagrant/config/confd /etc/
-
 cp /vagrant/bin/confd /usr/local/bin/
-
 daemon -X "confd -config-file /etc/confd/conf.d/config.toml"
 
-########################################
+#==================================================
 echo "Installing and Configuring Demo Service"
-
 cp /vagrant/bin/demo /usr/local/bin/
-
 daemon -X "demo -addr=:8076"
 
 SCRIPT
@@ -143,22 +118,16 @@ SCRIPT
       $script = <<SCRIPT
 apt-get install daemon
 
-########################################
+#==================================================
 echo "Installing and Configuring Consul"
-
 cp /vagrant/bin/consul /usr/local/bin/
-
 mkdir /etc/consul.d/
 cp /vagrant/config/demo.demo.json /etc/consul.d/demo.json
+daemon -X "consul agent -data-dir /tmp/consul -node=demo -config-dir /etc/consul.d -bind 172.20.20.15 -join 172.20.20.10"
 
-daemon -X "consul agent -data-dir /tmp/consul \
-    -node=demo -config-dir /etc/consul.d -bind=172.20.20.15 -join 172.20.20.10"
-
-########################################
+#==================================================
 echo "Installing and Configuring Demo App"
-
 cp /vagrant/bin/demo /usr/local/bin/
-
 daemon -X "demo -addr=:80"
 
 SCRIPT
