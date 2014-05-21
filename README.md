@@ -3,6 +3,7 @@
 Here is a 6 node example environment running in Vagrant to demo [Consul](http://www.consul.io/) and [Confd](https://github.com/kelseyhightower/confd).
 
 Look through the [Vagrantfile](https://github.com/benschw/consul-cluster-vagrant/blob/master/Vagrantfile) to get an idea of what we're setting up, but essentially we are building:
+
 - 2 consul server agents
 - 1 consul agent hosting a "status" web gui
 - 2 example service nodes
