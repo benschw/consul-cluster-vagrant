@@ -10,10 +10,9 @@ Look through the [Vagrantfile](https://github.com/benschw/consul-cluster-vagrant
 - 1 demo web-app that will interact with the service
 <!-- end of list -->
 
-
-	$ git clone git@github.com:benschw/consul-cluster-vagrant.git
-	$ cd consul-cluster-vagrant
-	$ vagrant up
+		$ git clone git@github.com:benschw/consul-cluster-vagrant.git
+		$ cd consul-cluster-vagrant
+		$ vagrant up
 	
 
 #### Some notes
