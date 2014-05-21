@@ -1,5 +1,7 @@
 # Consul & Confd Cluster Demo
 
+_for a full explanation & walk through, check out http://txt.fliglio.com2014/05/encapsulated-services-with-consul-and-confd/_
+
 Here is a 6 node example environment running in Vagrant to demo [Consul](http://www.consul.io/) and [Confd](https://github.com/kelseyhightower/confd).
 
 Look through the [Vagrantfile](https://github.com/benschw/consul-cluster-vagrant/blob/master/Vagrantfile) to get an idea of what we're setting up, but essentially we are building:
