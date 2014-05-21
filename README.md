@@ -7,6 +7,8 @@ Look through the [Vagrantfile](https://github.com/benschw/consul-cluster-vagrant
 - 1 consul agent hosting a "status" web gui
 - 2 example service nodes
 - 1 demo web-app that will interact with the service
+<!-- end of list -->
+
 
 	$ git clone git@github.com:benschw/consul-cluster-vagrant.git
 	$ cd consul-cluster-vagrant
