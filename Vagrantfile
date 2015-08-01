@@ -19,7 +19,7 @@ cp /vagrant/bin/consul /usr/local/bin/
 daemon -X "consul agent -server -bootstrap -data-dir /tmp/consul -node=consul1 -bind 172.20.20.10"
 
 SCRIPT
-      consul1.vm.provision "shell", inline: $script
+      consul1.vm.provision "shell", run: "always", inline: $script
       consul1.vm.hostname = "consul1"
       consul1.vm.network "private_network", ip: "172.20.20.10"
   end
@@ -35,7 +35,7 @@ cp /vagrant/bin/consul /usr/local/bin/
 daemon -X "consul agent -server -data-dir /tmp/consul -node=consul2 -bind 172.20.20.11 -join 172.20.20.10" 
 
 SCRIPT
-      consul2.vm.provision "shell", inline: $script
+      consul2.vm.provision "shell", run: "always", inline: $script
       consul2.vm.hostname = "consul2"
       consul2.vm.network "private_network", ip: "172.20.20.11"
   end
@@ -52,7 +52,7 @@ daemon -X "consul agent -client=172.20.20.12 -ui-dir /vagrant/web/ -data-dir /tm
 
 SCRIPT
 
-      status.vm.provision "shell", inline: $script
+      status.vm.provision "shell", run: "always", inline: $script
       status.vm.hostname = "status"
       status.vm.network "private_network", ip: "172.20.20.12"
   end
@@ -65,7 +65,7 @@ apt-get install daemon
 #==================================================
 echo "Installing and Configuring Consul"
 cp /vagrant/bin/consul /usr/local/bin/
-mkdir /etc/consul.d/
+mkdir /etc/consul.d/ 2>/dev/null
 cp /vagrant/config/svc1.mysvc.json /etc/consul.d/mysvc.json
 daemon -X "consul agent -data-dir /tmp/consul -node=service1 -config-dir /etc/consul.d -bind 172.20.20.13 -join 172.20.20.10"
 
@@ -81,7 +81,7 @@ cp /vagrant/bin/demo /usr/local/bin/
 daemon -X "demo -addr=:8045"
 
 SCRIPT
-      svc1.vm.provision "shell", inline: $script
+      svc1.vm.provision "shell", run: "always", inline: $script
       svc1.vm.hostname = "svc1"
       svc1.vm.network "private_network", ip: "172.20.20.13"
   end
@@ -93,7 +93,7 @@ apt-get install daemon
 #==================================================
 echo "Installing and Configuring Consul"
 cp /vagrant/bin/consul /usr/local/bin/
-mkdir /etc/consul.d/
+mkdir /etc/consul.d/ 2>/dev/null
 cp /vagrant/config/svc2.mysvc.json /etc/consul.d/mysvc.json
 daemon -X "consul agent -data-dir /tmp/consul -node=service2 -config-dir /etc/consul.d -bind 172.20.20.14 -join 172.20.20.10"
 
@@ -109,7 +109,7 @@ cp /vagrant/bin/demo /usr/local/bin/
 daemon -X "demo -addr=:8076"
 
 SCRIPT
-      svc2.vm.provision "shell", inline: $script
+      svc2.vm.provision "shell", run: "always", inline: $script
       svc2.vm.hostname = "svc2"
       svc2.vm.network "private_network", ip: "172.20.20.14"
   end
@@ -121,7 +121,7 @@ apt-get install daemon
 #==================================================
 echo "Installing and Configuring Consul"
 cp /vagrant/bin/consul /usr/local/bin/
-mkdir /etc/consul.d/
+mkdir /etc/consul.d/ 2>/dev/null
 cp /vagrant/config/demo.demo.json /etc/consul.d/demo.json
 daemon -X "consul agent -data-dir /tmp/consul -node=demo -config-dir /etc/consul.d -bind 172.20.20.15 -join 172.20.20.10"
 
@@ -131,12 +131,10 @@ cp /vagrant/bin/demo /usr/local/bin/
 daemon -X "demo -addr=:80"
 
 SCRIPT
-      demo.vm.provision "shell", inline: $script
+      demo.vm.provision "shell", run: "always", inline: $script
       demo.vm.hostname = "demo"
       demo.vm.network "private_network", ip: "172.20.20.15"
   end
-
-
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "256"]
